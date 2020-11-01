@@ -26,15 +26,13 @@
 
 	<div fxFlex="40" *ngIf='dish'>
 		<h3>Comments</h3>
-		<mat-list *ngIf='dish.comments.length > 0; else noComments'>
-			<mat-list-item *ngFor='let comment of dish.comments'>
-				<p>
-					{{ comment.comment }}<br/>
-					{{ comment.rating }} Star<span *ngIf='comment.rating !== 1'>s</span><br/>
-					— {{ comment.author }}, {{ comment.date | date }}
-				</p>
-			</mat-list-item>
-		</mat-list>
+		<div fxLayout='column'>
+			<div fxFlex *ngFor='let comment of dish.comments'>
+				{{ comment.comment }}<br/>
+				{{ comment.rating }} Star<span *ngIf='comment.rating !== 1'>s</span><br/>
+				— {{ comment.author }}, {{ comment.date | date }}
+			</div>
+		</div>
 		<ng-template #noComments>No comments.</ng-template>
 	</div>
 
