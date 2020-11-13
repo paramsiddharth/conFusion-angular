@@ -44,29 +44,29 @@
         <mat-form-field class='half-width'>
           <input matInput formControlName='firstname' required
             placeholder="First Name" type='text'>
-          <mat-error *ngIf='feedbackForm.get("firstname") && feedbackForm.get("firstname").touched'>
-            First name required.
+          <mat-error *ngIf='formErrors.firstname'>
+            {{ formErrors.firstname }}
           </mat-error>
         </mat-form-field>
         <mat-form-field class='half-width'>
           <input matInput formControlName='lastname' required
             placeholder="Last Name" type='text'>
-          <mat-error *ngIf='feedbackForm.get("lastname") && feedbackForm.get("lastname").touched'>
-            Last name required.
+          <mat-error *ngIf='formErrors.lastname'>
+            {{ formErrors.lastname }}
           </mat-error>
         </mat-form-field>
         <mat-form-field class='half-width'>
           <input matInput formControlName='telnum' required
-            placeholder="Tel. Number" type='tel'>
-          <mat-error *ngIf='feedbackForm.get("telnum") && feedbackForm.get("telnum").touched'>
-            Telephone number required.
+            placeholder="Tel. Number" type='tel' pattern='[0-9]*'>
+          <mat-error *ngIf='formErrors.telnum'>
+            {{ formErrors.telnum }}
           </mat-error>
         </mat-form-field>
         <mat-form-field class='half-width'>
           <input matInput formControlName='email' required
             placeholder="E-mail" type='email'>
-          <mat-error *ngIf='feedbackForm.get("email") && feedbackForm.get("email").touched'>
-            E-mail required.
+          <mat-error *ngIf='formErrors.email'>
+            {{ formErrors.email }}
           </mat-error>
         </mat-form-field>
       </p>
