@@ -39,7 +39,7 @@
   <div fxFlex fxFlexOffset='20px' class='form-size'>
     <h3>Send us your Feedback</h3>
     <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
-    <form novalidate mat-button #fform='ngForm' (ngSubmit)='onSubmit()' [formGroup]='feedbackForm'>
+    <form novalidate #fform='ngForm' (ngSubmit)='onSubmit()' [formGroup]='feedbackForm'>
       <p>
         <mat-form-field class='half-width'>
           <input matInput formControlName='firstname' required
