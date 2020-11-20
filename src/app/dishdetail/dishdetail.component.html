@@ -13,7 +13,7 @@
 					<h3>{{ dish.name | uppercase }}</h3>
 				</mat-card-title>
 			</mat-card-header>
-			<img mat-card-image src={{dish.image}} alt={{dish.name}}/>
+			<img mat-card-image src="{{BaseURL}}/{{dish.image}}" alt={{dish.name}}/>
 			<mat-card-content>
 				<p>{{ dish.description }}</p>
 			</mat-card-content>
@@ -31,18 +31,6 @@
 			</mat-card-actions>
 		</mat-card>
 	</div>
-
-	<!-- <div fxFlex="40" *ngIf='dish'>
-		<h3>Comments</h3>
-		<div fxLayout='column'>
-			<div fxFlex *ngFor='let comment of dish.comments'>
-				{{ comment.comment }}<br/>
-				{{ comment.rating }} Star<span *ngIf='comment.rating !== 1'>s</span><br/>
-				— {{ comment.author }}, {{ comment.date | date }}
-			</div>
-		</div>
-		<ng-template #noComments>No comments.</ng-template>
-	</div> -->
 	
 	<div fxFlex="40" *ngIf='dish'>
 		<mat-list>
