@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service';
 import { Dish } from '../shared/dish';
 import { Comment } from '../shared/comment';
-import { subscribeOn, switchMap } from 'rxjs/operators';
+import { multicast, subscribeOn, switchMap } from 'rxjs/operators';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,6 +23,7 @@ export class DishdetailComponent implements OnInit {
 
 	commentForm: FormGroup;
 	comment?: Comment = null;
+	dishCopy?: Dish = null;
 	@ViewChild('cform') commentFormDirective?: any;
 
 	formErrors = {
@@ -54,6 +55,7 @@ export class DishdetailComponent implements OnInit {
 		this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
 			.subscribe(dish => {
 				this.dish = dish;
+				this.dishCopy = dish;
 				this.setPrevNext(dish.id);
 			}, errmess => this.errMess = <any>errmess);
 	}
@@ -82,6 +84,15 @@ export class DishdetailComponent implements OnInit {
 			comment: ''
 		});
 		this.dish.comments.push(this.comment);
+		this.dishService.putDish(this.dishCopy)
+			.subscribe(dish => {
+				this.dish = dish;
+				this.dishCopy = dish;
+			}, errmess => {
+				this.dish = null;
+				this.dishCopy = null;
+				this.errMess = <any>errmess;
+			});
 	}
 
 	onValueChanges(data?: any) {
