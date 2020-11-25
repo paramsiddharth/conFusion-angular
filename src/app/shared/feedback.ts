@@ -10,6 +10,6 @@ export class Feedback {
 
 export const ContactType = [
 	'None',
-	'Tel',
+	'Tel.',
 	'Email'
 ];

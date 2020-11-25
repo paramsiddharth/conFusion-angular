@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { flyInOut } from '../animations/app.animation';
+import { baseURL } from '../shared/baseurl';
+import { Observable } from 'rxjs';
+import { FeedbackService } from '../services/feedback.service';
+import { expand } from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
@@ -12,13 +16,17 @@ import { flyInOut } from '../animations/app.animation';
 		'style': 'display: block'
 	},
 	animations: [
-		flyInOut()
+    flyInOut(),
+    expand()
 	]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  feedbackCopy?: Feedback = null;
+  feedbackDone: boolean = true;
+  feedbackErrMess: string = "";
   contactType = ContactType;
   @ViewChild('fform') feedbackFormDirective;
 
@@ -50,7 +58,8 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private feedbackService: FeedbackService) {
     this.createForm();
   }
 
@@ -94,8 +103,9 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    this.feedbackDone = false;
     this.feedback = this.feedbackForm.value;
-    //console.log(this.feedback);
+    this.feedbackFormDirective.resetForm();
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
@@ -105,7 +115,20 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ''
     });
-    this.feedbackFormDirective.resetForm();
+    this.feedbackService.submitFeedback(this.feedback)
+      .subscribe(fback => {
+        this.feedbackCopy = fback;
+        setTimeout(() => {
+          this.feedbackCopy = null;
+          this.feedbackDone = true;
+        }, 5000);
+        // console.log(fback);
+      }, errmess => {
+        this.feedbackErrMess = <any>errmess;
+        setTimeout(() => {
+          this.feedbackErrMess = '';
+        }, 5000);
+      });
   }
 
 }
